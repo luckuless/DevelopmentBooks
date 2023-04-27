@@ -28,7 +28,6 @@ public class PriceServiceImpl implements IPriceService {
         Map<String, Integer> bookMap = basket.getBookMap();
 
         for (String key : bookMap.keySet()) {
-
             BigDecimal price = findBookByISBN(key).get().getPrice();
             totalPrice = totalPrice.add(price.multiply(BigDecimal.valueOf(bookMap.get(key))));
         }
@@ -38,9 +37,7 @@ public class PriceServiceImpl implements IPriceService {
 
     @Override
     public Optional<Book> findBookByISBN(String ISBN) {
-
         List<Book> books = bookRepository.findByISBN(ISBN);
-        
         return books.stream().findFirst();
     
     }
