@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kata.DevelopmentBooks.dto.Basket;
+import com.kata.DevelopmentBooks.service.IBasketService;
 import com.kata.DevelopmentBooks.service.IPriceService;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,18 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class BasketController implements IBasketController {
 
     @Autowired
-    IPriceService priceService;
+    IBasketService basketService;
     
     @PostMapping("/calculate-price")
     @Override
     public Basket calculateTotalPrice(@RequestBody Basket basket) {
-
-        BigDecimal totalPrice = priceService.calculateTotalPrice(basket);
-        log.info("Total Price prior to discounts: {}", totalPrice);
-
-        basket.setTotalPrice(totalPrice);
-        
-        return basket;
+        log.info("Request for price received");
+        return basketService.getBasketWithPrice(basket);
     }
     
 }
