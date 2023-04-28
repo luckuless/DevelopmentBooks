@@ -76,4 +76,4 @@ On success, the REST API will return the below prices:
 - discountedPrice: the final price after the discount is applied in EUR
 
 ### TODO
-Refactor code to allow the system to differentiate between different discount codes and apply them correctly
+Refactor code to allow the system to differentiate between different discount codes for different series and apply them correctly.
