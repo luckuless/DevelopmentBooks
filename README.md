@@ -72,8 +72,8 @@ The following ISBNs are available in the in memory database:
 
 On success, the REST API will return the below prices:
 - totalPrice: price without discount in EUR
-- discountApplied: the amount of discount applied in EUR
-- DiscountedPrice: the final price after the discount is applied.
+- discountAllowed: the amount of discount applied in EUR
+- discountedPrice: the final price after the discount is applied in EUR
 
 ### TODO
 Refactor code to allow the system to differentiate between different discount codes and apply them correctly
