@@ -16,13 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Collections;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kata.DevelopmentBooks.TestUtils;
 import com.kata.DevelopmentBooks.dto.Basket;
-import com.kata.DevelopmentBooks.repository.BookRepository;
 import com.kata.DevelopmentBooks.service.IBasketService;
 
 @WebMvcTest(controllers = BasketController.class)
