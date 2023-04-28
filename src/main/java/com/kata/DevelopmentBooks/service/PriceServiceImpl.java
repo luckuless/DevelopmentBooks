@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kata.DevelopmentBooks.dto.Basket;
 import com.kata.DevelopmentBooks.entity.Book;
+import com.kata.DevelopmentBooks.exception.BookNotFoundException;
 import com.kata.DevelopmentBooks.repository.BookRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class PriceServiceImpl implements IPriceService {
     BookRepository bookRepository;
 
     @Override
-    public BigDecimal calculateTotalPrice(Basket basket) {
+    public BigDecimal calculateTotalPrice(Basket basket) throws BookNotFoundException {
         BigDecimal totalPrice = BigDecimal.ZERO;
 
         Map<String, Integer> bookMap = basket.getBookMap();
@@ -36,8 +37,11 @@ public class PriceServiceImpl implements IPriceService {
     }
 
     @Override
-    public Optional<Book> findBookByISBN(String ISBN) {
+    public Optional<Book> findBookByISBN(String ISBN) throws BookNotFoundException {
         List<Book> books = bookRepository.findByISBN(ISBN);
+        if (books.isEmpty()) {
+            throw new BookNotFoundException("Book with ISBN "+ ISBN +" is not present in our record.");
+        }
         return books.stream().findFirst();
     
     }

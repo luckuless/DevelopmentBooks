@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.kata.DevelopmentBooks.TestUtils;
 import com.kata.DevelopmentBooks.dto.Basket;
+import com.kata.DevelopmentBooks.exception.BookNotFoundException;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
@@ -31,7 +32,7 @@ public class BasketServiceTest {
 
     
     @Test
-    public void getBasketWithPrice() {
+    public void getBasketWithPrice() throws BookNotFoundException {
         Basket basket = TestUtils.createBasket();
 
         when(priceService.calculateTotalPrice(basket)).thenReturn(BigDecimal.valueOf(400));

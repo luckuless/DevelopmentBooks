@@ -8,5 +8,5 @@ import com.kata.DevelopmentBooks.entity.Book;
 
 public interface BookRepository extends JpaRepository<Book, String> {
     
-    List<Book> findByISBN(String iSBN);
+    List<Book> findByISBN(String ISBN);
 }

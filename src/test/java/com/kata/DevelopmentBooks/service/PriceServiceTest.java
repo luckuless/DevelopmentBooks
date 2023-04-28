@@ -2,9 +2,12 @@ package com.kata.DevelopmentBooks.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.kata.DevelopmentBooks.TestUtils;
 import com.kata.DevelopmentBooks.dto.Basket;
 import com.kata.DevelopmentBooks.entity.Book;
+import com.kata.DevelopmentBooks.exception.BookNotFoundException;
 import com.kata.DevelopmentBooks.repository.BookRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -42,7 +46,7 @@ public class PriceServiceTest {
     }
 
     @Test
-    void calculateTotalPrice() {
+    void calculateTotalPrice() throws BookNotFoundException {
         Basket basket = TestUtils.createBasket();
 
         Book book = new Book();
@@ -53,6 +57,14 @@ public class PriceServiceTest {
         BigDecimal totalPrice =  priceService.calculateTotalPrice(basket);
 
         assertThat(BigDecimal.valueOf(400), equalTo(totalPrice));
+        
+    }
+
+    @Test
+    void whenInvalidISBN_returnException() {
+        Mockito.when(bookRepository.findByISBN(any())).thenReturn(Collections.emptyList());
+
+        assertThrows(BookNotFoundException.class, () -> {priceService.findBookByISBN(anyString());});
         
     }
 }

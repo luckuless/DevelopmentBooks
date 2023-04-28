@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kata.DevelopmentBooks.dto.Basket;
+import com.kata.DevelopmentBooks.exception.BookNotFoundException;
 
 @Service
 public class BasketServiceImpl implements IBasketService {
@@ -17,7 +18,7 @@ public class BasketServiceImpl implements IBasketService {
     IDiscountService discountService;
 
     @Override
-    public Basket getBasketWithPrice(Basket basket) {
+    public Basket getBasketWithPrice(Basket basket) throws BookNotFoundException {
         Basket processedBasket = basket;
         processedBasket.setTotalPrice(priceService.calculateTotalPrice(basket));
 
@@ -29,7 +30,7 @@ public class BasketServiceImpl implements IBasketService {
     }
 
     @Override
-    public BigDecimal calculateTotalPrice(Basket basket) {
+    public BigDecimal calculateTotalPrice(Basket basket) throws BookNotFoundException {
         return priceService.calculateTotalPrice(basket);
     }
 
