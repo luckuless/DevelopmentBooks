@@ -3,12 +3,18 @@ package com.kata.DevelopmentBooks.service;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kata.DevelopmentBooks.dto.Basket;
+import com.kata.DevelopmentBooks.entity.Serie;
 import com.kata.DevelopmentBooks.enums.DiscountCode;
+import com.kata.DevelopmentBooks.repository.SerieRepository;
 import com.kata.DevelopmentBooks.utils.DiscountUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +27,9 @@ public class DiscountServiceImpl implements IDiscountService {
 
     DiscountUtils discountUtils;
 
+    @Autowired
+    SerieRepository serieRepository;
+
     @Override
     public DiscountCode getDiscountCode() {
         return DiscountCode.DISCOUNT_SINGLE_DIFFERENT_BOOKS;
@@ -30,7 +39,9 @@ public class DiscountServiceImpl implements IDiscountService {
     public BigDecimal getDiscountPercentage(Basket basket) {
         BigDecimal discount = BigDecimal.ZERO;
 
-        Integer[] countIntegerBooksByISBN = basket.getBookMap().values().toArray(new Integer[0]);
+        Map<String, Integer> relevantBookMap = getMapOfApplicableDiscountedBooks(basket);
+
+        Integer[] countIntegerBooksByISBN = relevantBookMap.values().toArray(new Integer[0]);
 
         Arrays.sort(countIntegerBooksByISBN, Collections.reverseOrder());
 
@@ -62,6 +73,21 @@ public class DiscountServiceImpl implements IDiscountService {
         }
 
         return discount;
+    }
+
+    @Override
+    public Map<String, Integer> getMapOfApplicableDiscountedBooks(Basket basket) {
+
+        Map<String, Integer> finalMap = new HashMap<>();
+
+        List<Serie> series = serieRepository.findByDiscountCode(getDiscountCode());
+
+        if (!series.isEmpty()) {
+            Serie serie = series.stream().findFirst().get();
+            finalMap = DiscountUtils.removeBooksPresentInSerie(basket.getBookMap(), serie);
+        }
+        
+        return finalMap;
     }
 
 }

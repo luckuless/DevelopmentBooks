@@ -35,7 +35,12 @@ public class InsertDummyRecords implements ApplicationRunner{
         serie.setName("developmentBooks");
         serie.setDiscountCode(DiscountCode.DISCOUNT_SINGLE_DIFFERENT_BOOKS);
 
+        Serie serie2 = new Serie();
+        serie2.setId("Normal");
+        serie2.setName("Normal");
+
         serieRepository.save(serie);
+        serieRepository.save(serie2);
 
 
         log.info("serie count:{}", serieRepository.count());
@@ -70,11 +75,19 @@ public class InsertDummyRecords implements ApplicationRunner{
         book5.setPrice(BigDecimal.valueOf(50));
         book5.setSerie(serie);
 
+        Book book6 = new Book();
+        book6.setISBN("isbn6");
+        book6.setName("Book without discount");
+        book6.setPrice(BigDecimal.valueOf(50));
+        book6.setSerie(serie2);
+
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
         bookRepository.save(book4);
         bookRepository.save(book5);
+        bookRepository.save(book6);
+
 
         log.info("book count:{}", bookRepository.count());
 

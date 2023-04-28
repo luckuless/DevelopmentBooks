@@ -22,7 +22,6 @@ public class Serie {
     @Id
     String id;
     String name;
-    @Nullable
     DiscountCode discountCode;
 
     @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
