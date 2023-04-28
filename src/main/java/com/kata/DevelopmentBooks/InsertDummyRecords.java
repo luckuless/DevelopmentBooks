@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.kata.DevelopmentBooks.entity.Book;
@@ -17,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class CustomApplicationRunner implements ApplicationRunner{
+@Profile("dev")
+public class InsertDummyRecords implements ApplicationRunner{
 
     @Autowired
     SerieRepository serieRepository;
@@ -33,12 +35,7 @@ public class CustomApplicationRunner implements ApplicationRunner{
         serie.setName("developmentBooks");
         serie.setDiscountCode(DiscountCode.DISCOUNT_SINGLE_DIFFERENT_BOOKS);
 
-        Serie serie2 = new Serie();
-        serie2.setId("Baking");
-        serie2.setName("Baking");
-
         serieRepository.save(serie);
-        serieRepository.save(serie2);
 
 
         log.info("serie count:{}", serieRepository.count());
@@ -73,18 +70,11 @@ public class CustomApplicationRunner implements ApplicationRunner{
         book5.setPrice(BigDecimal.valueOf(50));
         book5.setSerie(serie);
 
-        Book book6 = new Book();
-        book6.setISBN("isbn6");
-        book6.setName("Book6");
-        book6.setPrice(BigDecimal.valueOf(50));
-        book6.setSerie(serie2);
-
         bookRepository.save(book1);
         bookRepository.save(book2);
         bookRepository.save(book3);
         bookRepository.save(book4);
         bookRepository.save(book5);
-        bookRepository.save(book6);
 
         log.info("book count:{}", bookRepository.count());
 
